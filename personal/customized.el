@@ -6,6 +6,9 @@
 ;; Disable scroll bar
 (scroll-bar-mode -1)
 
+;; install material theme
+(prelude-require-package 'material-theme)
+
 ;; expand region
 (prelude-require-package 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
@@ -56,5 +59,8 @@
 
 ;; enable global line-number on the left mode for the given mode.
 (add-hook 'text-mode-hook (lambda() (linum-mode t)))
+
+;; ace-window configuration
+(global-set-key (kbd "M-p") 'ace-window)
 
 ;;; customize.el ends here
