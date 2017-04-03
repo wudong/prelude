@@ -17,6 +17,13 @@
 (prelude-require-package 'goto-last-change)
 (global-set-key (kbd "C-<") 'goto-last-change)
 
+;; require environment from shell, which is from the .bashrc
+(prelude-require-package 'exec-path-from-shell)
+(exec-path-from-shell-initialize)
+
+;; php-mode
+(prelude-require-package 'php-mode)
+
 ;; required for neotree's icon theme;
 ;; also need to download and install the fonts.
 (prelude-require-package 'all-the-icons)
@@ -33,9 +40,11 @@
 ;; current file and jump to node.
 (setq neo-smart-open t)
 
+
+(message "current display is: %s" (if (display-graphic-p) "graphical" "terminal"))
 ;; set the theme to use icon while in graphical and arrow
 ;; while in console
-(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+(setq neo-theme 'icons)
 
 ;; loading ag.el for silver search.
 (prelude-require-package 'ag)
@@ -62,6 +71,11 @@
 
 ;; enable global line-number on the left mode for the given mode.
 (add-hook 'text-mode-hook (lambda() (linum-mode t)))
+
+
+;; syntax hightlight in orgmode
+;; http://stackoverflow.com/questions/10642888/syntax-highlighting-within-begin-src-block-in-emacs-orgmode-not-working
+(setq org-src-fontify-natively t)
 
 ;; ace-window configuration
 (global-set-key (kbd "M-p") 'ace-window)
