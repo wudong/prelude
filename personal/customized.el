@@ -37,6 +37,9 @@
 ;; while in console
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
+;; loading ag.el for silver search.
+(prelude-require-package 'ag)
+
 ;; change root automatically when running projectile-switch-project
 (setq projectile-switch-project-action 'neotree-projectile-action)
 
