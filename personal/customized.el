@@ -34,6 +34,9 @@
 ;; neotree
 (prelude-require-package 'neotree)
 
+
+;;
+(prelude-require-package 'ibuffer-projectile)
 ;; neotree configurations
 
 ;; every time when the neotree window is opened, let it find
@@ -72,6 +75,12 @@
 ;; enable global line-number on the left mode for the given mode.
 (add-hook 'text-mode-hook (lambda() (linum-mode t)))
 
+;; ibuffer-hook for ibuffer-projectile
+(add-hook 'ibuffer-hook
+          (lambda ()
+            (ibuffer-projectile-set-filter-groups)
+            (unless (eq ibuffer-sorting-mode 'alphabetic)
+              (ibuffer-do-sort-by-alphabetic))))
 
 ;; syntax hightlight in orgmode
 ;; http://stackoverflow.com/questions/10642888/syntax-highlighting-within-begin-src-block-in-emacs-orgmode-not-working
@@ -79,5 +88,11 @@
 
 ;; ace-window configuration
 (global-set-key (kbd "M-p") 'ace-window)
+
+;; openwith files in external
+(prelude-require-package 'openwith)
+(openwith-mode t)
+(setq pdf-opener (if (eq system-type 'darwin) "open" "evince") )
+(setq openwith-associations '(("\\.pdf\\'" pdf-opener (file))))
 
 ;;; customize.el ends here
