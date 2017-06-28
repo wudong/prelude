@@ -2,6 +2,22 @@
 ;;; Commentary:
 ;; This file will be loaded by prelude when Emacs starts.
 
+;;; this starts the server mode. which allow the client to connect to.
+(server-start)
+
+;;; OSX specific settings
+;; reverse the key that defined by the prelude mac module.
+;; disable the right alternate-modifier
+;; it will disable the use the right alt key is the meta key.
+;; mainly for the purpose of mac keyboard with the #.
+(when (eq system-type 'darwin)
+  (setq ns-right-alternate-modifier (quote none))
+  (define-key prelude-mode-map (kbd "C-c w") nil))
+
+;;; enable the desktop mode to save emacs sessions.
+;; so buffer/history etc will be restored upon restart
+(desktop-save-mode 1)
+
 ;;; Code:
 ;; Disable scroll bar
 (scroll-bar-mode -1)
@@ -33,7 +49,6 @@
 
 ;; neotree
 (prelude-require-package 'neotree)
-
 
 ;;
 (prelude-require-package 'ibuffer-projectile)
@@ -85,6 +100,9 @@
 ;; syntax hightlight in orgmode
 ;; http://stackoverflow.com/questions/10642888/syntax-highlighting-within-begin-src-block-in-emacs-orgmode-not-working
 (setq org-src-fontify-natively t)
+;; set agenda files
+(setq org-agenda-files (quote ("~/Repository/org")))
+
 
 ;; ace-window configuration
 (global-set-key (kbd "M-p") 'ace-window)
