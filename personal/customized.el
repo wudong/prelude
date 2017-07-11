@@ -2,6 +2,9 @@
 ;;; Commentary:
 ;; This file will be loaded by prelude when Emacs starts.
 
+;;; adding the archive for orgmode.
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+
 ;;; this starts the server mode. which allow the client to connect to.
 (server-start)
 
@@ -50,25 +53,27 @@
 ;; neotree
 (prelude-require-package 'neotree)
 
-;;
-(prelude-require-package 'ibuffer-projectile)
+
+;; loading ag.el for silver search.
+(prelude-require-package 'ag)
+
+;; python virtualenv
+(prelude-require-package 'virtualenvwrapper)
+;;(venv-initialize-eshell)
+
+;;; projectile configuration
+;; open the project root dir in dired
+(setq projectile-switch-project-action #'projectile-dired)
+
 ;; neotree configurations
 
 ;; every time when the neotree window is opened, let it find
 ;; current file and jump to node.
 (setq neo-smart-open t)
 
-
-(message "current display is: %s" (if (display-graphic-p) "graphical" "terminal"))
 ;; set the theme to use icon while in graphical and arrow
 ;; while in console
 (setq neo-theme 'icons)
-
-;; loading ag.el for silver search.
-(prelude-require-package 'ag)
-
-;; change root automatically when running projectile-switch-project
-(setq projectile-switch-project-action 'neotree-projectile-action)
 
 ;; open neotree at projectile project root
 (defun neotree-project-dir ()
@@ -90,19 +95,14 @@
 ;; enable global line-number on the left mode for the given mode.
 (add-hook 'text-mode-hook (lambda() (linum-mode t)))
 
+
 ;; ibuffer-hook for ibuffer-projectile
+(prelude-require-package 'ibuffer-projectile)
 (add-hook 'ibuffer-hook
           (lambda ()
             (ibuffer-projectile-set-filter-groups)
             (unless (eq ibuffer-sorting-mode 'alphabetic)
               (ibuffer-do-sort-by-alphabetic))))
-
-;; syntax hightlight in orgmode
-;; http://stackoverflow.com/questions/10642888/syntax-highlighting-within-begin-src-block-in-emacs-orgmode-not-working
-(setq org-src-fontify-natively t)
-;; set agenda files
-(setq org-agenda-files (quote ("~/Repository/org")))
-
 
 ;; ace-window configuration
 (global-set-key (kbd "M-p") 'ace-window)
