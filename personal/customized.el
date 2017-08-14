@@ -5,8 +5,18 @@
 ;;; adding the archive for orgmode.
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
+;;; setting to turn on debug mode.
+;;(setq debug-on-error t)
+
 ;;; this starts the server mode. which allow the client to connect to.
-(server-start)
+;;; (server-start)
+
+;;; yasnippet
+(prelude-require-package 'yasnippet)
+(yas-global-mode 1)
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+(define-key yas-minor-mode-map (kbd "C-<tab>") 'yas-expand)
 
 ;;; OSX specific settings
 ;; reverse the key that defined by the prelude mac module.
@@ -42,6 +52,11 @@
 
 ;; php-mode
 (prelude-require-package 'php-mode)
+
+;; typescript-mode
+(prelude-require-package 'typescript-mode)
+;; add hook for tsx type.
+(add-to-list 'auto-mode-alist '("\\.tsx$" . typescript-mode))
 
 ;; required for neotree's icon theme;
 ;; also need to download and install the fonts.
