@@ -27,7 +27,7 @@
   (setq ns-right-alternate-modifier (quote none))
   (define-key prelude-mode-map (kbd "C-c w") nil))
 ;; call the swap key for meta.
-(prelude-swap-meta-and-super)
+;; (prelude-swap-meta-and-super)
 
 ;;; enable the desktop mode to save emacs sessions.
 ;; so buffer/history etc will be restored upon restart

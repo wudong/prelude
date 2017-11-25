@@ -4,10 +4,14 @@
 
 ;;htmlize to convert buffer
 (prelude-require-package 'htmlize)
+(prelude-require-package 'ox-gfm)
+
+;; load the markdown exporter
+(eval-after-load "org"
+  '(require 'ox-gfm nil t))
 
 ;; main org-directory
 (setq org-directory "~/Repository/org")
-
 
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")
