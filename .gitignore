@@ -23,6 +23,7 @@ tramp
 /var/pcache
 .emacs.desktop
 .emacs.desktop.lock
-/.org-id-locations
-/network-security.data
+.org-id-locations
 org-gcal
+network-security.data
+
