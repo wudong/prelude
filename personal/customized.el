@@ -2,6 +2,37 @@
 ;;; Commentary:
 ;; This file will be loaded by prelude when Emacs starts.
 
+;;; adding the archive for orgmode.
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+
+;;; setting to turn on debug mode.
+;;(setq debug-on-error t)
+
+;;; this starts the server mode. which allow the client to connect to.
+;;; (server-start)
+
+;;; yasnippet
+(prelude-require-package 'yasnippet)
+(yas-global-mode 1)
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+(define-key yas-minor-mode-map (kbd "C-<tab>") 'yas-expand)
+
+;;; OSX specific settings
+;; reverse the key that defined by the prelude mac module.
+;; disable the right alternate-modifier
+;; it will disable the use the right alt key is the meta key.
+;; mainly for the purpose of mac keyboard with the #.
+(when (eq system-type 'darwin)
+  (setq ns-right-alternate-modifier (quote none))
+  (define-key prelude-mode-map (kbd "C-c w") nil))
+;; call the swap key for meta.
+;; (prelude-swap-meta-and-super)
+
+;;; enable the desktop mode to save emacs sessions.
+;; so buffer/history etc will be restored upon restart
+(desktop-save-mode 1)
+
 ;;; Code:
 ;; Disable scroll bar
 (scroll-bar-mode -1)
@@ -24,9 +55,16 @@
 ;; php-mode
 (prelude-require-package 'php-mode)
 
+
 ;; scala ensime
 (prelude-require-package 'ensime)
 (prelude-require-package 'sbt-mode)
+
+;; typescript-mode
+(prelude-require-package 'typescript-mode)
+;; add hook for tsx type.
+(add-to-list 'auto-mode-alist '("\\.tsx$" . typescript-mode))
+
 
 ;; required for neotree's icon theme;
 ;; also need to download and install the fonts.
@@ -38,20 +76,27 @@
 ;; neotree
 (prelude-require-package 'neotree)
 
+
+;; loading ag.el for silver search.
+(prelude-require-package 'ag)
+
+;; python virtualenv
+(prelude-require-package 'virtualenvwrapper)
+;;(venv-initialize-eshell)
+
+;;; projectile configuration
+;; open the project root dir in dired
+(setq projectile-switch-project-action #'projectile-dired)
+
 ;; neotree configurations
 
 ;; every time when the neotree window is opened, let it find
 ;; current file and jump to node.
 (setq neo-smart-open t)
 
-
-(message "current display is: %s" (if (display-graphic-p) "graphical" "terminal"))
 ;; set the theme to use icon while in graphical and arrow
 ;; while in console
 (setq neo-theme 'icons)
-
-;; change root automatically when running projectile-switch-project
-(setq projectile-switch-project-action 'neotree-projectile-action)
 
 ;; open neotree at projectile project root
 (defun neotree-project-dir ()
@@ -73,22 +118,22 @@
 ;; enable global line-number on the left mode for the given mode.
 (add-hook 'text-mode-hook (lambda() (linum-mode t)))
 
-;; syntax hightlight in orgmode
-;; http://stackoverflow.com/questions/10642888/syntax-highlighting-within-begin-src-block-in-emacs-orgmode-not-working
-(setq org-src-fontify-natively t)
+;; ibuffer-hook for ibuffer-projectile
+(prelude-require-package 'ibuffer-projectile)
+(add-hook 'ibuffer-hook
+          (lambda ()
+            (ibuffer-projectile-set-filter-groups)
+            (unless (eq ibuffer-sorting-mode 'alphabetic)
+              (ibuffer-do-sort-by-alphabetic))))
 
 ;; ace-window configuration
 (global-set-key (kbd "M-p") 'ace-window)
 
-;; setting the orgmode.
-;; set the org directory
-(setq org-agenda-files '("~/Repository/org"))
-;; set the TODO sequential states
-(setq org-todo-keywords '((sequence "TODO" "DOING" "DONE")))
-
-;;openwith package to open external
+;; openwith files in external
 (prelude-require-package 'openwith)
-(setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
 (openwith-mode t)
+(setq pdf-opener (if (eq system-type 'darwin) "open" "evince") )
+(setq openwith-associations '(("\\.pdf\\'" pdf-opener (file))))
+
 
 ;;; customize.el ends here
