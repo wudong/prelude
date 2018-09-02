@@ -126,6 +126,7 @@
             (unless (eq ibuffer-sorting-mode 'alphabetic)
               (ibuffer-do-sort-by-alphabetic))))
 
+(prelude-require-package 'ace-window)
 ;; ace-window configuration
 (global-set-key (kbd "M-p") 'ace-window)
 
