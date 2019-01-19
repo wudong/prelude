@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: Anki Note
+# key: anki
+# --
+
+** $1
+   :PROPERTIES:
+   :ANKI_DECK: Notes
+   :ANKI_NOTE_TYPE: Basic
+   :END:
+*** Front
+    $1
+*** Back
+    $0
+    

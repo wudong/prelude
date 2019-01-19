@@ -87,6 +87,7 @@
 ;;; projectile configuration
 ;; open the project root dir in dired
 (setq projectile-switch-project-action #'projectile-dired)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 ;; neotree configurations
 
@@ -136,5 +137,7 @@
 (setq pdf-opener (if (eq system-type 'darwin) "open" "evince") )
 (setq openwith-associations '(("\\.pdf\\'" pdf-opener (file))))
 
+
+(setq vc-follow-symlinks t)
 
 ;;; customize.el ends here
