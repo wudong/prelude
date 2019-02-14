@@ -1,5 +1,6 @@
 ;;; orgmode-customize.el -- OrgMode customization.
 ;;; Commentary:
+
 ;; this file will be loaded by prelude when Emacs starts.
 
 ;;htmlize to convert buffer
@@ -12,6 +13,7 @@
 
 ;; main org-directory
 (setq org-directory "~/Repo/org")
+(setq org-todo-capture-file (concat org-directory "/gtd.org"))
 
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")
@@ -38,6 +40,14 @@
 (setq org-agenda-start-on-weekday nil)
 (setq org-reverse-note-order t)
 
+;; https://orgmode.org/manual/Breaking-down-tasks.html
+;;(defun org-summary-todo (n-done n-not-done)
+;;  "Switch entry to DONE when all subentries are done, to TODO otherwise."
+;;  (let (org-log-done org-log-states)   ; turn off logging
+;;    (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+
+;;(add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+
 ;; set execution on source code block
 ;(org-babel-do-load-languages
 ;; 'org-babel-load-languages
@@ -54,10 +64,10 @@
 
 ;; Capture templates for: TODO tasks, Notes,
 (setq org-capture-templates
-      '(("t" "Todo Item" entry (file+headline (concat org-directory "/gtd.org") "Tasks")
+      '(("t" "Todo Item" entry (file+headline org-todo-capture-file "Tasks")
          "* TODO %?\n  %i\n  %a")
-        ("n" "Quick Note" entry (file (concat org-directory "/notes.org"))
+        ("n" "Quick Note" entry (file "~/Repo/org/notes.org")
          "* %?\nEntered on %U\n  %i\n")
-        ("s" "Scribble" entry (file (concat org-directory "/scribble.org"))
+        ("s" "Scribble" entry (file "~/Repo/org/scribble.org")
          "* %?\nEntered on %U\n  %i\n")
         ))
