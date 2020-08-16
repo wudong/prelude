@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: Anki Note Full
+# key: ankinew
+# --
+
+** $1
+   :PROPERTIES:
+   :ANKI_DECK: WudongNotes
+   :ANKI_NOTE_TYPE: Basic
+   :END:
+*** Front
+$1
+*** Back
+$0

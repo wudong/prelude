@@ -12,8 +12,11 @@
   '(require 'ox-gfm nil t))
 
 ;; main org-directory
-(setq org-directory "~/Repo/org")
-(setq org-todo-capture-file (concat org-directory "/gtd.org"))
+(setq org-directory "~/repo/org")
+(setq org-todo-capture-file "~/repo/org/gtd.org")
+
+(setq org-refile-targets '(("~/repo/org/gtd.org" :maxlevel . 1)
+                           ("~/repo/org/anki.org" :maxlevel . 1)))
 
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")
@@ -49,9 +52,9 @@
 ;;(add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
 ;; set execution on source code block
-;(org-babel-do-load-languages
+                                        ;(org-babel-do-load-languages
 ;; 'org-babel-load-languages
-;'((python . t)
+                                        ;'((python . t)
 ;;   (shell . t)
 ;;   (java . t)
 ;;   (js . t)
@@ -62,12 +65,23 @@
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 (global-set-key (kbd "C-c c") 'org-capture)
 
-;; Capture templates for: TODO tasks, Notes,
+;; Capture templates for: TODO tasks,
 (setq org-capture-templates
-      '(("t" "Todo Item" entry (file+headline org-todo-capture-file "Tasks")
-         "* TODO %?\n  %i\n  %a")
-        ("n" "Quick Note" entry (file "~/Repo/org/notes.org")
-         "* %?\nEntered on %U\n  %i\n")
-        ("s" "Scribble" entry (file "~/Repo/org/scribble.org")
-         "* %?\nEntered on %U\n  %i\n")
+      '(("t" "TODO" entry (file+headline "~/repo/org/gtd.org" "Collect")
+         "* TODO %? %^g \n  %U" :empty-lines 1)
+        ("s" "Scheduled TODO" entry (file+headline "~/repo/org/gtd.org" "Collect")
+         "* TODO %? %^g \nSCHEDULED: %^t\n  %U" :empty-lines 1)
+        ("d" "Deadline" entry (file+headline "~/repo/org/gtd.org" "Collect")
+         "* TODO %? %^g \n  DEADLINE: %^t" :empty-lines 1)
+        ("p" "Priority" entry (file+headline "~/repo/org/gtd.org" "Collect")
+         "* TODO [#A] %? %^g \n  SCHEDULED: %^t")
+        ("a" "Appointment" entry (file+headline "~/repo/org/gtd.org" "Collect")
+         "* %? %^g \n  %^t")
+        ("l" "Link" entry (file+headline "~/repo/org/gtd.org" "Links")
+         "* TODO %a %? %^g\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n")
+        ("n" "Note" entry (file+headline "~/repo/org/anki.org" "NoteCollect")
+         "** %? %^g \n%U" :empty-lines 1)
         ))
+
+;; anki-editor, connect to WSL window
+(setq anki-editor-anki-connect-listening-address "192.168.10.29")

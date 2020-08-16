@@ -8,5 +8,5 @@
 
 ;; package-install RET color-theme-sanityinc-tomorrow RET
 ;; https://github.com/purcell/color-theme-sanityinc-tomorrow
-(setq prelude-theme 'sanityinc-tomorrow-eighties)
+;; (setq prelude-theme 'sanityinc-tomorrow-eighties)
 

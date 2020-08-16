@@ -18,17 +18,6 @@
 (define-key yas-minor-mode-map (kbd "TAB") nil)
 (define-key yas-minor-mode-map (kbd "C-<tab>") 'yas-expand)
 
-;;; OSX specific settings
-;; reverse the key that defined by the prelude mac module.
-;; disable the right alternate-modifier
-;; it will disable the use the right alt key is the meta key.
-;; mainly for the purpose of mac keyboard with the #.
-(when (eq system-type 'darwin)
-  (setq ns-right-alternate-modifier (quote none))
-  (define-key prelude-mode-map (kbd "C-c w") nil))
-;; call the swap key for meta.
-;; (prelude-swap-meta-and-super)
-
 ;;; enable the desktop mode to save emacs sessions.
 ;; so buffer/history etc will be restored upon restart
 (desktop-save-mode 1)
@@ -36,9 +25,6 @@
 ;;; Code:
 ;; Disable scroll bar
 (scroll-bar-mode -1)
-
-;; install material theme
-(prelude-require-package 'material-theme)
 
 ;; expand region
 (prelude-require-package 'expand-region)
@@ -52,19 +38,11 @@
 (prelude-require-package 'exec-path-from-shell)
 (exec-path-from-shell-initialize)
 
-;; php-mode
-(prelude-require-package 'php-mode)
-
-
-;; scala ensime
-(prelude-require-package 'ensime)
-(prelude-require-package 'sbt-mode)
-
 ;; typescript-mode
 (prelude-require-package 'typescript-mode)
+
 ;; add hook for tsx type.
 (add-to-list 'auto-mode-alist '("\\.tsx$" . typescript-mode))
-
 
 ;; required for neotree's icon theme;
 ;; also need to download and install the fonts.
@@ -79,10 +57,6 @@
 
 ;; loading ag.el for silver search.
 (prelude-require-package 'ag)
-
-;; python virtualenv
-(prelude-require-package 'virtualenvwrapper)
-;;(venv-initialize-eshell)
 
 ;;; projectile configuration
 ;; open the project root dir in dired
@@ -131,13 +105,29 @@
 ;; ace-window configuration
 (global-set-key (kbd "M-p") 'ace-window)
 
-;; openwith files in external
-(prelude-require-package 'openwith)
-(openwith-mode t)
-(setq pdf-opener (if (eq system-type 'darwin) "open" "evince") )
-(setq openwith-associations '(("\\.pdf\\'" pdf-opener (file))))
-
-
 (setq vc-follow-symlinks t)
+
+;; anki works on wsl2
+(setq anki-editor-anki-connect-listening-address "192.168.10.29")
+
+
+;;; desktop-override-stale-locks.el begins here
+(defun emacs-process-p (pid)
+  "If pid is the process ID of an emacs process, return t, else nil.
+Also returns nil if pid is nil."
+  (when pid
+    (let* ((cmdline-file (concat "/proc/" (int-to-string pid) "/cmdline")))
+      (when (file-exists-p cmdline-file)
+        (with-temp-buffer
+          (insert-file-contents-literally cmdline-file)
+          (goto-char (point-min))
+          (search-forward "emacs" nil t)
+          pid)))))
+
+(defadvice desktop-owner (after pry-from-cold-dead-hands activate)
+  "Don't allow dead emacsen to own the desktop file."
+  (when (not (emacs-process-p ad-return-value))
+    (setq ad-return-value nil)))
+;;; desktop-override-stale-locks.el ends here
 
 ;;; customize.el ends here

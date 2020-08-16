@@ -3,13 +3,11 @@
 # key: anki
 # --
 
-** $1
-   :PROPERTIES:
-   :ANKI_DECK: Notes
-   :ANKI_NOTE_TYPE: Basic
-   :END:
+    :PROPERTIES:
+    :ANKI_DECK: WudongNotes
+    :ANKI_NOTE_TYPE: Basic
+    :END:
 *** Front
-    $1
+$1
 *** Back
-    $0
-    
+$0
