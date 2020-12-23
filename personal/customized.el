@@ -11,6 +11,11 @@
 ;;; this starts the server mode. which allow the client to connect to.
 ;;; (server-start)
 
+;; eyebrowse to workspace.
+(prelude-require-package 'eyebrowse)
+(eyebrowse-mode t)
+(setq eyebrowse-new-workspace t)
+
 ;;; yasnippet
 (prelude-require-package 'yasnippet)
 (yas-global-mode 1)
@@ -129,5 +134,9 @@ Also returns nil if pid is nil."
   (when (not (emacs-process-p ad-return-value))
     (setq ad-return-value nil)))
 ;;; desktop-override-stale-locks.el ends here
+
+
+(global-set-key "\M-N"  (lambda () (interactive) (scroll-up   1)) )
+(global-set-key "\M-P"  (lambda () (interactive) (scroll-down 1)) )
 
 ;;; customize.el ends here
